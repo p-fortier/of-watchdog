@@ -8,8 +8,9 @@ endif
 LDFLAGS := "-s -w -X main.Version=$(.GIT_VERSION) -X main.GitCommit=$(.GIT_COMMIT)"
 
 
-.IMAGE=ghcr.io/openfaas/of-watchdog
-TAG?=latest
+#.IMAGE=ghcr.io/openfaas/of-watchdog
+.IMAGE=dyninka/of-watchdog
+TAG?=dyninka
 
 export GOFLAGS=-mod=vendor
 
@@ -45,7 +46,6 @@ dist:
 	CGO_ENABLED=0 GOOS=linux go build -mod=vendor -a -ldflags $(LDFLAGS) -installsuffix cgo -o bin/fwatchdog-amd64
 	GOARM=7 GOARCH=arm CGO_ENABLED=0 GOOS=linux go build -mod=vendor -a -ldflags $(LDFLAGS) -installsuffix cgo -o bin/fwatchdog-arm
 	GOARCH=arm64 CGO_ENABLED=0 GOOS=linux go build -mod=vendor -a -ldflags $(LDFLAGS) -installsuffix cgo -o bin/fwatchdog-arm64
-	GOOS=windows CGO_ENABLED=0 go build -mod=vendor -a -ldflags $(LDFLAGS) -installsuffix cgo -o bin/fwatchdog.exe
 
 # use this with
 # `./ci/copy_redist.sh $(make print-image) && ./ci/hashgen.sh`

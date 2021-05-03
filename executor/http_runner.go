@@ -102,6 +102,8 @@ func (f *HTTPFunctionRunner) Run(req FunctionRequest, contentLength int64, r *ht
 
 	request, _ := http.NewRequest(r.Method, upstreamURL, body)
 	for h := range r.Header {
+		log.Printf("Header: #{h}\n")
+		log.Printf("Value: #{r.Header.Get(h)}\n\n")
 		request.Header.Set(h, r.Header.Get(h))
 	}
 
@@ -172,6 +174,7 @@ func (f *HTTPFunctionRunner) Run(req FunctionRequest, contentLength int64, r *ht
 	}
 
 	log.Printf("%s %s - %s - ContentLength: %d", r.Method, r.RequestURI, res.Status, res.ContentLength)
+	log.Printf("#{r.Header}\n")
 
 	return nil
 }
